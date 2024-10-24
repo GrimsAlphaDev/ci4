@@ -1,10 +1,9 @@
-<h1><?= $title ?></h1>
+<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-4xl font-bold text-center mb-12"><?= $title ?></h1>
+    <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+        <?php foreach ($posts as $post) : ?>
+            <?= view_cell('\App\Libraries\Blog::postItem', ['title' => $post]) ?>
+        <?php endforeach; ?>
+    </div>
 
-<div>
-
-    <?php foreach ($posts as $post) : ?>
-        <h2><?= $post ?></h2>
-        <img src="/assets/images/avatar.jpg" alt="avatar" style="width: 200px; height: auto;">
-        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam vel quae, corrupti neque earum recusandae. Perspiciatis praesentium fugit, odio assumenda similique, suscipit est amet laudantium, sunt iure impedit cum corporis delectus modi neque esse labore! Tenetur tempora illum maiores sint consequuntur! Veniam atque tenetur aliquid? Saepe, vero placeat, dolorum, blanditiis numquam excepturi sit cupiditate aspernatur deleniti praesentium qui ex distinctio neque laudantium quisquam similique harum dicta nemo illo. Numquam reiciendis est, inventore quae quia quidem et dolore perferendis nisi maxime nostrum tempora. Laudantium quos dolorem, dolor magni aspernatur voluptas autem at, repudiandae distinctio qui non iusto necessitatibus minus nostrum amet?</p>
-    <?php endforeach; ?>
 </div>
