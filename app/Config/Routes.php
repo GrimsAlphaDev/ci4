@@ -19,7 +19,12 @@ $routes->get('shop', 'ShopController::index');
 
 // product
 $routes->get('blog', 'BlogController::index');
-$routes->get('blog/post', 'BlogController::post');
+$routes->get('blog/post/(:num)', 'BlogController::post/$1');
+$routes->get('blog/new', 'BlogController::new');
+$routes->post('blog/new', 'BlogController::savePost');
+$routes->delete('blog/post/(:num)', 'BlogController::delete/$1');
+$routes->get('blog/edit/(:alphanum)', 'BlogController::edit/$1');
+$routes->put('blog/update/(:alphanum)', 'BlogController::update/$1');
 
 $routes->group('admin', function($routes){
     $routes->get('user', 'Admin\UsersController::index');
@@ -32,5 +37,4 @@ $routes->group('admin', function($routes){
     // BLOG Routes
     $routes->get('blog', 'Admin\BlogController::index');
     $routes->get('blog/new', 'Admin\BlogController::createNew');
-    $routes->post('blog/new', 'Admin\BlogController::saveBlog');
 });
