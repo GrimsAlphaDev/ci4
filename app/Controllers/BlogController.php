@@ -11,7 +11,7 @@ class BlogController extends BaseController
     public function index(): string
     {
         $model = new BlogModel();
-        dd($model->getPostsWithAuthor(1));
+        // dd($model->getPostsWithAuthor(1));
         $data = [
             'meta_title' => 'Codeigniter 4 Blog',
             'title' => 'This is a Blog page'
