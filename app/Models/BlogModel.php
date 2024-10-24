@@ -25,7 +25,7 @@ class BlogModel extends Model
 
     public function getPostsWithAuthor()
     {
-        return  $this->select('posts.*, users.email, users.user_id')
+        return  $this->select('posts.*, users.email, users.username, users.user_id')
             ->join('users', 'posts.post_author = users.user_id')
             ->findAll();
     }

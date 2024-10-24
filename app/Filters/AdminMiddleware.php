@@ -1,39 +1,37 @@
 <?php
-
 namespace App\Filters;
 
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
-use CodeIgniter\HTTP\ResponseInterface;
-use Firebase\JWT\JWT;
+use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
+use CodeIgniter\HTTP\ResponseInterface;
 
-class GuestMiddleware implements FilterInterface
+class AdminMiddleware implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        // check if user doesn't have a session
         if(session()->get('token')){
             // authenticade jwt token
             $key = getenv('JWT_SECRET');
             $token = session()->get('token');
-
+            
             try {
                 $decoded = JWT::decode($token, new Key($key, 'HS256'));
-                // check user role
-                if($decoded->data->role == 'admin'){
-                    return redirect()->to('/admin/blog');
-                } else {
-                    return redirect()->to('/blog');
+                if($decoded->data->role != 'admin'){
+                    session()->setFlashdata('error', 'You are not authorized to access the page');
+                    return redirect()->to('/login');
                 }
             } catch (\Exception $e) {
-                return $request;
+                return redirect()->to('/login');
             }
-            
+        } else {
+            session()->setFlashdata('error', 'Please login to access the page');
+            return redirect()->to('/login');
         }
     }
-
+    
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null){
-
+        
     }
 }

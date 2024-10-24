@@ -28,7 +28,7 @@ class AuthController extends BaseController
             'password' => 'required',
         ];
 
-        if($request->getPost('honeypot') !== ''){
+        if ($request->getPost('honeypot') !== '') {
             session()->setFlashdata('error', 'You are not human');
             return redirect()->to('/login');
         }
@@ -46,7 +46,7 @@ class AuthController extends BaseController
             session()->setFlashdata('error', 'Invalid Credentials');
             return redirect()->to('/login')->withInput();
         }
-        
+
         // create jwt token
         $key = getenv('JWT_SECRET');
         $iat = time();
@@ -61,6 +61,7 @@ class AuthController extends BaseController
                 'user_id' => $user['user_id'],
                 'username' => $user['username'],
                 'email' => $user['email'],
+                'role' => $user['role'],
             ]
         ];
 
@@ -70,7 +71,12 @@ class AuthController extends BaseController
         // set token to session
         session()->set('token', $token);
         // continue to blog dashboard
-        return redirect()->to('/admin/blog');
+        // get user role
+        if ($user['role'] == 'admin') {
+            return redirect()->to('/admin/blog');
+        } else {
+            return redirect()->to('/blog');
+        }
     }
 
     public function logout()
@@ -78,5 +84,24 @@ class AuthController extends BaseController
         session()->remove('token');
         session()->setFlashdata('success', 'Logout Successful');
         return redirect()->to('/login');
+    }
+
+    // get user detail
+    public function getUser()
+    {
+        $key = getenv('JWT_SECRET');
+        $token = session()->get('token');
+        if ($token) {
+            $decoded = JWT::decode($token, new \Firebase\JWT\Key($key, 'HS256'));
+            // get only username and email
+            $decoded = [
+                'username' => $decoded->data->username,
+                'email' => $decoded->data->email,
+            ];
+            return $decoded;
+        } else {
+            session()->setFlashdata('error', 'Token not found');
+            return $this->response->setJSON(['error' => 'Token not found']);
+        }
     }
 }

@@ -27,6 +27,11 @@ class UserMigration extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => '255',
             ],
+            'role' => [
+                'type' => 'ENUM',
+                'constraint' => ['admin', 'user'],
+                'default' => 'user',
+            ],
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => true,

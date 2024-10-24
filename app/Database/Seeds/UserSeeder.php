@@ -13,6 +13,7 @@ class UserSeeder extends Seeder
             'username' => 'admin',
             'email'    => 'admin@admin.com',
             'password' => password_hash('asdasd', PASSWORD_DEFAULT),
+            'role'     => 'admin',
         ];
 
         // Using Query Builder
@@ -26,6 +27,7 @@ class UserSeeder extends Seeder
                 'username' => $faker->userName,
                 'email'    => $faker->email,
                 'password' => password_hash('asdasd', PASSWORD_DEFAULT),
+                'role'     => 'user',
             ];
 
             // save to db

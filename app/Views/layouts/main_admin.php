@@ -7,18 +7,24 @@
     <title><?= (isset($meta_title) ? $meta_title : 'CodeIgniter4') ?></title>
     <link rel="stylesheet" href="<?= base_url() ?>css/tailwind/styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+    <?= $this->renderSection('style') ?>
 </head>
 
 <body>
 
     <?= $this->include('partials/sidebar') ?>
 
-    <div class="p-4 sm:ml-64">
+    <div class="p-4 sm:ml-64 mt-14">
         <?= $this->renderSection('content') ?>
     </div>
+   
+</div>
 
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <?= $this->renderSection('script') ?>
     <script>
         // Mobile Menu Toggle
         const menuButton = document.getElementById('mobile-menu-button');

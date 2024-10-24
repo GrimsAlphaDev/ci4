@@ -38,6 +38,8 @@ class Filters extends BaseFilters
         'performance'   => PerformanceMetrics::class,
         'auth'          => AuthMiddleware::class,
         'guest'         => GuestMiddleware::class,
+        'admin'        => \App\Filters\AdminMiddleware::class,
+        'user'         => \App\Filters\UserMiddleware::class,
     ];
 
     /**
