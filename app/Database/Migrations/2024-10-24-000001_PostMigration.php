@@ -22,13 +22,17 @@ class PostMigration extends Migration
             'post_description' => [
                 'type' => 'TEXT',
             ],
-            'created_at' => [
-                'type' => 'DATETIME',
-                'null' => true,
+            'post_image' => [
+                'type' => 'VARCHAR',
+                'constraint' => '255',
             ],
             'post_author' => [
                 'type' => 'int',
                 'constraint' => 5,
+            ],
+            'created_at' => [
+                'type' => 'DATETIME',
+                'null' => true,
             ],
             'updated_at' => [
                 'type' => 'DATETIME',

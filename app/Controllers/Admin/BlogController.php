@@ -6,9 +6,9 @@ use App\Controllers\BaseController;
 
 class BlogController extends BaseController
 {
-    public function index(): void
+    public function index(): string
     {
-        echo '<h2>List of Blog</h2>';
+        return view('admin/posts/index');
     }
 
     public function createNew(): string

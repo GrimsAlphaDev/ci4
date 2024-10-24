@@ -15,6 +15,10 @@ class UserMigration extends Migration
                 'unsigned' => true,
                 'auto_increment' => true
             ],
+            'username' => [
+                'type' => 'VARCHAR',
+                'constraint' => '100',
+            ],
             'email' => [
                 'type' => 'VARCHAR',
                 'constraint' => '100',

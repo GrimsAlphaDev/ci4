@@ -3,6 +3,7 @@
 use App\Controllers\ShopController;
 use App\Controllers\TestController;
 use CodeIgniter\Router\RouteCollection;
+use PHPUnit\Util\Filter;
 
 /**
  * @var RouteCollection $routes
@@ -11,7 +12,7 @@ use CodeIgniter\Router\RouteCollection;
 // $routes->setAutoRoute(true); // akses controller tanpa menambahkan route
 $routes->get('/', 'Home::index');
 $routes->get('validation', 'Home::validation');
-$routes->get('test', 'TestController::index' );
+// $routes->get('test', 'TestController::index' );
 $routes->get('test/(:any)/(:any)', 'TestController::show/$1/$2');
 
 // shop
@@ -34,13 +35,17 @@ $routes->get('posts/like', 'PostsController::like');
 $routes->get('posts/grouping', 'PostsController::grouping');
 $routes->get('posts/wherein', 'PostsController::whereIn');
 
-$routes->group('admin', function($routes){
+$routes->get('logout', 'Auth\AuthController::logout');
+
+$routes->group('', ['filter' => 'guest'], function ($routes) {
+    $routes->get('login', 'Auth\AuthController::login');
+    $routes->post('login', 'Auth\AuthController::validateLogin');
+});
+
+$routes->group('admin', ['filter' => 'auth'], function ($routes) {
     $routes->get('user', 'Admin\UsersController::index');
     $routes->get('users', 'Admin\UsersController::getAllUsers');
     $routes->add('product', 'Admin\ShopController::index');
-
-    $routes->get('admin/shop', 'Admin\ShopController::index');
-    $routes->get('product/(:alphanum)/(:num)', 'Admin\ShopController::product/$1/$2');
 
     // BLOG Routes
     $routes->get('blog', 'Admin\BlogController::index');
