@@ -9,19 +9,19 @@ class BlogModel extends Model
     protected $table = 'posts';
     protected $primaryKey = 'post_id';
 
-    protected $allowedFields = ['post_title', 'post_description'];
+    protected $allowedFields = ['post_title', 'post_description', 'post_image', 'post_author'];
     protected $useTimestamps = true;
     protected $useSoftDeletes = true;
 
-    protected $beforeInsert = ['checkName'];
+    // protected $beforeInsert = ['checkName'];
 
-    protected function checkName(array $data)
-    {
-        $newTitle = $data['data']['post_title'] . 'Extra Features';
-        $data['data']['post_title'] = $newTitle;
+    // protected function checkName(array $data)
+    // {
+    //     $newTitle = $data['data']['post_title'] . 'Extra Features';
+    //     $data['data']['post_title'] = $newTitle;
 
-        return $data;
-    }
+    //     return $data;
+    // }
 
     public function getPostsWithAuthor()
     {

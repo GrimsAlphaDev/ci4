@@ -50,6 +50,9 @@ $routes->group('admin', ['filter' => ['auth', 'admin']], function ($routes) {
     $routes->get('blog', 'Admin\BlogController::index');
     $routes->get('blog/new', 'Admin\BlogController::createNew');
     $routes->post('blog/new', 'Admin\BlogController::insert');
+    $routes->get('blog/edit/(:num)', 'Admin\BlogController::edit/$1');
+    $routes->put('blog/update/(:num)', 'Admin\BlogController::update/$1');
+    $routes->delete('blog/delete/(:num)', 'Admin\BlogController::delete/$1');
 
     // get userdata
     $routes->get('getUser', 'Auth\AuthController::getUser');

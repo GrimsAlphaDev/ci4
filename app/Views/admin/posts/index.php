@@ -43,20 +43,23 @@
                     <?php foreach ($posts as $post) : ?>
                         <tr class="text-gray-700">
                             <td class="px-4 py-3"><?= $no++ ?></td>
-                            <td class="px-4 py-3"><img src="<?= $post['post_image'] ?>" alt="<?= $post['post_title'] ?>"
+                            <td class="px-4 py-3"><img src="<?= base_url('uploads/images/' . $post['post_image']) ?>"
+                            alt="<?= $post['post_title'] ?>"
                                     class="w-20 h-20"></td>
                             <td class="px-4 py-3"><?= $post['post_title'] ?></td>
                             <td class="px-4 py-3"><?= $post['post_description'] ?></td>
                             <td class="px-4 py-3"><?= $post['username'] ?></td>
                             <td class="px-4 py-3 flex flex-col md:flex-row md:space-x-2 space-y-2 md:space-y-0">
-                                <a href=""
+                                <a href="<?= base_url('admin/blog/edit/' . $post['post_id']) ?>"
                                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">Edit</a>
-                                <form action="" method="post" class="inline">
+                                <form action="<?= base_url('admin/blog/delete/' . $post['post_id']) ?>"
+                                method="post" class="inline">
                                     <?= csrf_field() ?>
                                     <input type="hidden" name="_method" value="DELETE">
                                     <button type="submit"
-                                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Delete</button>
-                                </form>
+                                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                                        onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>
+                                    </form>
                             </td>
                         </tr>
                     <?php endforeach; ?>

@@ -97,6 +97,8 @@ class AuthController extends BaseController
             $decoded = [
                 'username' => $decoded->data->username,
                 'email' => $decoded->data->email,
+                'user_id' => $decoded->data->user_id,
+                'role' => $decoded->data->role,
             ];
             return $decoded;
         } else {
@@ -104,4 +106,5 @@ class AuthController extends BaseController
             return $this->response->setJSON(['error' => 'Token not found']);
         }
     }
+
 }
