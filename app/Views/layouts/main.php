@@ -17,8 +17,9 @@
         <?= $this->renderSection('content') ?>
     </div>
 
-
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <?= $this->renderSection('script') ?>
     <script>
         // Mobile Menu Toggle
         const menuButton = document.getElementById('mobile-menu-button');

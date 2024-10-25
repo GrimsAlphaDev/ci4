@@ -29,4 +29,9 @@ class BlogModel extends Model
             ->join('users', 'posts.post_author = users.user_id')
             ->findAll();
     }
+
+    public function getUserPosts($userId)
+    {
+        return $this->where('post_author', $userId)->findAll();
+    }
 }

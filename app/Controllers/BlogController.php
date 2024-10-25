@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Controllers\Auth\AuthController;
 use App\Models\BlogModel;
 use App\Models\CustomModel;
 use CodeIgniter\HTTP\Request;
@@ -10,16 +11,19 @@ class BlogController extends BaseController
 {
     public function index(): string
     {
+        
         $model = new BlogModel();
-        // dd($model->getPostsWithAuthor(1));
+        // get userdetails
+        $auth = new AuthController();
+        $user = $auth->getUser();
+        
         $data = [
             'meta_title' => 'Codeigniter 4 Blog',
-            'title' => 'This is a Blog page'
+            'title' => 'This is ' . $user['username'] . ' blog',
         ];
-
-        $posts =  ['Title 1', 'Title 2', 'Title 3', 'Title 4', 'Title 5'];
-
-        $data['posts'] = $posts;
+        
+        $data['user'] = $user;
+        $data['posts'] = $model->getUserPosts($user['user_id']);
 
         return view('blog', $data);
     }
@@ -50,58 +54,30 @@ class BlogController extends BaseController
 
     public function new(): string
     {
+        // get userdetails
+        $auth = new AuthController();
+        $user = $auth->getUser();
+        
         $data = [
             'meta_title' => 'New Post',
             'title' => 'Create new post'
         ];
+        $data['user'] = $user;
         return view('new_post', $data);
     }
 
-    public function savePost()
-    {
-
-
-        $Post = new BlogModel();
-        $request = service('request');
-
-        // dd($request->getPost()); // get all post data
-        // getvar for catch data from all request method (get, post, put, delete)
-
-        // Aturan validasi
-
-        if ($this->validate([
-            'title' => 'required|min_length[3]|max_length[255]|alpha_numeric_space',
-            'post_content' => 'required|alpha_numeric_space|min_length[3]'
-        ])) {
-            // Simpan data
-            $Post->save([
-                'post_title' => $request->getPost('title'),
-                'post_description' => $request->getPost('post_content'),
-            ]);
-
-            if ($Post->errors()) {
-                session()->setFlashdata('error', 'Post failed to save.');
-                return redirect()->back()->withInput();
-            }
-
-            // Set session untuk sukses
-            session()->setFlashdata('success', 'Post has been saved successfully.');
-            return redirect()->to('/blog');
-        } else {
-            // Set session untuk error
-            $errors = $this->validator->getErrors();
-            session()->setFlashdata('validation', $errors);
-            return redirect()->back()->withInput();
-        }
-    }
-
     public function edit($id){
+        // get userdetails
+        $auth = new AuthController();
+        $user = $auth->getUser();
+        
         $PostModel = new BlogModel();
         $post = $PostModel->find($id);
         $data = [
             'meta_title' => $post['post_title'],
             'title' => $post['post_title'],
-            'post' => $post
+            'post' => $post,
+            'user' => $user
         ];
 
         return view('edit_post', $data);

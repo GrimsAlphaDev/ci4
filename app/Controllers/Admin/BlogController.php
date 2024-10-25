@@ -69,7 +69,14 @@ class BlogController extends BaseController
 
             // Set session untuk sukses
             session()->setFlashdata('success', 'Post has been saved successfully.');
-            return redirect()->to('/admin/blog');
+            // check user role
+            $auth = new AuthController();
+            $user = $auth->getUser();
+            if ($user['role'] == 'admin') {
+                return redirect()->to('/admin/blog');
+            } else {
+                return redirect()->to('/blog');
+            }
         } else {
             // Set session untuk error
             $errors = $this->validator->getErrors();
@@ -102,7 +109,7 @@ class BlogController extends BaseController
             'user_id' => 'required'
         ])) {
 
-            if($request->getFile('image')->isValid()){
+            if ($request->getFile('image')->isValid()) {
                 $file = $request->getFile('image');
                 if ($file->isValid() && !$file->hasMoved()) {
                     $newName = $file->getRandomName() . '.' . $file->getExtension();
@@ -131,7 +138,7 @@ class BlogController extends BaseController
                     'post_author' => $request->getPost('user_id')
                 ]);
             }
-            
+
 
             if ($Post->errors()) {
                 session()->setFlashdata('error', 'Post failed to save.');
@@ -140,7 +147,14 @@ class BlogController extends BaseController
 
             // Set session untuk sukses
             session()->setFlashdata('success', 'Post has been saved successfully.');
-            return redirect()->to('/admin/blog');
+            // check user role
+            $auth = new AuthController();
+            $user = $auth->getUser();
+            if ($user['role'] == 'admin') {
+                return redirect()->to('/admin/blog');
+            } else {
+                return redirect()->to('/blog');
+            }
         } else {
             // Set session untuk error
             $errors = $this->validator->getErrors();
@@ -162,6 +176,13 @@ class BlogController extends BaseController
         $Post->delete($id);
 
         session()->setFlashdata('success', 'Post has been deleted successfully.');
-        return redirect()->to('/admin/blog');
+        // check user role
+        $auth = new AuthController();
+        $user = $auth->getUser();
+        if ($user['role'] == 'admin') {
+            return redirect()->to('/admin/blog');
+        } else {
+            return redirect()->to('/blog');
+        }  
     }
 }
